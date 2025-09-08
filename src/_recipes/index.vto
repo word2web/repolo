@@ -1,0 +1,17 @@
+---
+# The 'url' is generated for each item in the array returned by _recipes/_data.ts
+# The 'data' variable in the template represents the current item from that array
+url: "/recipes/{{ data.slug }}/"
+layout: "layouts/base.vto" # Explicitly define layout here or rely on _config.ts defaults if set
+---
+<article class="recipe">
+  <h1>{{ data.title }}</h1>
+
+  {{ if data.image }}
+  <img src="{{ data.image.url }}" alt="{{ data.image.alt ?? '' }}" />
+  {{ /if }}
+
+  <div class="recipe-content">
+    <pre>{{ data.text }}</pre>
+  </div>
+</article>
