@@ -1,4 +1,5 @@
 type: recipe
 layout: layouts/recipe.vto
+
 metas:
   title: "=title"

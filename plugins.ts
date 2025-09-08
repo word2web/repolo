@@ -1,20 +1,41 @@
-import lightningcss from "lume/plugins/lightningcss.ts";
+import date, { Options as DateOptions } from "lume/plugins/date.ts";
+import postcss from "lume/plugins/postcss.ts";
+import terser from "lume/plugins/terser.ts";
+import prism, { Options as PrismOptions } from "lume/plugins/prism.ts";
 import basePath from "lume/plugins/base_path.ts";
+import slugifyUrls from "lume/plugins/slugify_urls.ts";
+import resolveUrls from "lume/plugins/resolve_urls.ts";
 import metas from "lume/plugins/metas.ts";
-import { Options as SitemapOptions, sitemap } from "lume/plugins/sitemap.ts";
-import { favicon, Options as FaviconOptions } from "lume/plugins/favicon.ts";
+import pagefind, { Options as PagefindOptions } from "lume/plugins/pagefind.ts";
+import sitemap from "lume/plugins/sitemap.ts";
+import feed, { Options as FeedOptions } from "lume/plugins/feed.ts";
+import readingInfo from "lume/plugins/reading_info.ts";
 import { merge } from "lume/core/utils/object.ts";
+import toc from "https://deno.land/x/lume_markdown_plugins@v0.9.0/toc.ts";
+import image from "https://deno.land/x/lume_markdown_plugins@v0.9.0/image.ts";
+import footnotes from "https://deno.land/x/lume_markdown_plugins@v0.9.0/footnotes.ts";
+import { alert } from "npm:@mdit/plugin-alert@0.22.0";
 
 import "lume/types.ts";
 
 export interface Options {
-  sitemap?: Partial<SitemapOptions>;
-  favicon?: Partial<FaviconOptions>;
+  prism?: Partial<PrismOptions>;
+  date?: Partial<DateOptions>;
+  pagefind?: Partial<PagefindOptions>;
+  feed?: Partial<FeedOptions>;
 }
 
 export const defaults: Options = {
-  favicon: {
-    input: "uploads/favicon.svg",
+  feed: {
+    output: ["/feed.xml", "/feed.json"],
+    query: "type=post",
+    info: {
+      title: "=metas.site",
+      description: "=metas.description",
+    },
+    items: {
+      title: "=title",
+    },
   },
 };
 
@@ -23,13 +44,42 @@ export default function (userOptions?: Options) {
   const options = merge(defaults, userOptions);
 
   return (site: Lume.Site) => {
-    site
-      .use(lightningcss())
+    site.use(postcss())
       .use(basePath())
+      .use(toc())
+      .use(prism(options.prism))
+      .use(readingInfo())
+      .use(date(options.date))
       .use(metas())
-      .use(sitemap(options.sitemap))
-      .use(favicon(options.favicon))
+      .use(image())
+      .use(footnotes())
+      .use(resolveUrls())
+      .use(slugifyUrls())
+      .use(terser())
+      .use(pagefind(options.pagefind))
+      .use(sitemap())
+      .use(feed(options.feed))
+      .add("fonts")
+      .add([".css"])
+      .add("js")
+      .add("favicon.png")
       .add("uploads")
-      .add("style.css");
+      .mergeKey("extra_head", "stringArray")
+      .preprocess([".md"], (pages) => {
+        for (const page of pages) {
+          page.data.excerpt ??= (page.data.content as string).split(
+            /<!--\s*more\s*-->/i,
+          )[0];
+        }
+      });
+
+    // Alert plugin
+    site.hooks.addMarkdownItPlugin(alert);
+
+    // Mastodon comment system
+    site.remoteFile(
+      "/js/comments.js",
+      "https://cdn.jsdelivr.net/npm/@oom/mastodon-comments@0.3.2/src/comments.js",
+    );
   };
 }
