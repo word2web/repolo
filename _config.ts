@@ -1,8 +1,8 @@
 import lume from "lume/mod.ts";
-import decapCMS from "lume/plugins/decap_cms.ts";
+import decap_cms from "lume/plugins/decap_cms.ts"; // Note the underscore
 
 const site = lume();
 
-site.use(decapCMS(/* Options */));
+site.use(decap_cms(/* Options */));
 
 export default site;
