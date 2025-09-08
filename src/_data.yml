@@ -1,9 +1,7 @@
 lang: en
 
 metas:
-  site: Lume site
-  twitter: ""
-  fediverse: ""
+  site: "Repolo: a recipe theme for Lume"
   icon: /uploads/favicon.svg
   lang: =lang
   generator: true

@@ -1,9 +1,20 @@
 ---
 layout: layouts/base.vto
 title: Home
+url: "/"
 ---
-<header>
-  <h1>{{ title }}</h1>
 
-  <p>This is a boilerplate to create a Lume theme</p>
-</header>
+<h1>{{ title }}</h1>
+
+<div class="recipes-list">
+{{ for recipe of recipes }} <!-- 'recipes' comes from _data/recipes.ts -->
+  <article class="recipe-preview">
+    <h2><a href="/recipes/{{ recipe.slug }}/">{{ recipe.title }}</a></h2>
+    {{ if recipe.image }}
+    <img src="{{ recipe.image.url }}" alt="{{ recipe.image.alt ?? '' }}" width="200" />
+    {{ /if }}
+    <!-- You might want to show a snippet of the text -->
+    <!-- <p>{{ recipe.text | truncate(100) }}</p> --> <!-- If you add a truncate filter -->
+  </article>
+{{ /for }}
+</div>

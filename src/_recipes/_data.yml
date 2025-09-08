@@ -1,0 +1,7 @@
+# This tells Lume: "For this _recipes directory,
+# generate a page for each item in the global 'recipes' data array"
+# The 'data' context for each page will be one item from that array.
+data: recipes
+layout: layouts/base.vto # Use your base layout for each recipe page
+metas:
+  title: "=data.title" # Set the page <title> to the recipe title

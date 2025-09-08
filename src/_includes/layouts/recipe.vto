@@ -1,0 +1,11 @@
+---
+layout: base.vto
+---
+
+<article>
+  <h1>{{ recipe.title }}</h1>
+  {% if recipe.image %}
+    <img src="{{ recipe.image.url }}" alt="{{ recipe.image.alt }}">
+  {% endif %}
+  <pre>{{ recipe.text }}</pre>
+</article>
