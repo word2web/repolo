@@ -1,4 +1,0 @@
-data: recipes
-layout: layouts/recipe.vto
-metas:
-  title: "=data.title"

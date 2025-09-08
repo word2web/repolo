@@ -2,27 +2,7 @@
 layout: ./base.vto
 ---
 
-<article>
-  <h1>{{ recipe.title }}</h1>
-  {% if recipe.image.url %}
-    <img src="{{ recipe.image.url }}" alt="{{ recipe.image.alt }}">
-  {% endif %}
-
-  <h2>Ingredients</h2>
-  <ul>
-    {% for block in recipe.blocks %}
-      {% if block.type == "list-item" %}
-        <li>{{ block.text }}</li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-
-  <h2>Method</h2>
-  <ol>
-    {% for block in recipe.blocks %}
-      {% if block.type == "o-list-item" %}
-        <li>{{ block.text }}</li>
-      {% endif %}
-    {% endfor %}
-  </ol>
-</article>
+  <h1>{{ title }}</h1>
+  <div>
+  {{ content }}
+  </div>
