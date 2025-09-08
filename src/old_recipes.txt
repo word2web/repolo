@@ -1,8 +1,0 @@
----
-title: "All Recipes"
-layout: "layouts/base.vto"
-url: "/recipes/"
----
-
-<h1>{{ title }}</h1>
-<p>This is the recipes list page.</p>

@@ -1,11 +1,28 @@
 ---
-layout: base.vto
+layout: ./base.vto
 ---
 
 <article>
   <h1>{{ recipe.title }}</h1>
-  {% if recipe.image %}
+  {% if recipe.image.url %}
     <img src="{{ recipe.image.url }}" alt="{{ recipe.image.alt }}">
   {% endif %}
-  <pre>{{ recipe.text }}</pre>
+
+  <h2>Ingredients</h2>
+  <ul>
+    {% for block in recipe.blocks %}
+      {% if block.type == "list-item" %}
+        <li>{{ block.text }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  <h2>Method</h2>
+  <ol>
+    {% for block in recipe.blocks %}
+      {% if block.type == "o-list-item" %}
+        <li>{{ block.text }}</li>
+      {% endif %}
+    {% endfor %}
+  </ol>
 </article>

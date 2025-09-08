@@ -64,7 +64,7 @@ export interface RecipeData {
   title: string; // Extracted plain text
   text: string; // Extracted plain text
   image: { url: string; alt: string | null } | null; // Simplified image object
-  // Add processed fields as needed
+  blocks: PrismicStructuredTextContent[]; // Expose all blocks for template rendering
 }
 
 export default async function (): Promise<RecipeData[]> {
@@ -122,13 +122,17 @@ export default async function (): Promise<RecipeData[]> {
         }
       }
 
+      // --- Expose all blocks for template rendering ---
+      const blocks = Array.isArray(doc.data.text) ? doc.data.text : [];
+
       return {
         id: doc.id,
         uid: doc.uid,
         slug: doc.slugs && doc.slugs.length > 0 ? doc.slugs[0] : (doc.uid ? doc.uid : doc.id),
         title: title,
         text: text,
-        image: imageData
+        image: imageData,
+        blocks: blocks
       };
     });
 

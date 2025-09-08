@@ -11,34 +11,7 @@
     <link rel="canonical" href="{{ url |> url(true) }}">
   </head>
   <body>
-   <body>
-    <nav class="navbar navbar-expand-lg mb-4">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="/">{{ metas.site }}</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav">
-            {{- for entry of search.pages("menu.visible=true", "menu.order") }}
-              <li class="nav-item">
-                <a class="nav-link{{ if entry.url == url }} active{{ /if }}" href="{{ entry.url }}">
-                  {{ entry.menu.title || entry.title }}
-                </a>
-              </li>
-            {{ /for }}
-            {{- for link of it.menu_links }}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ link.href }}"{{ if link.target }} target="{{link.target}}"{{ /if }}>
-                  {{ link.text }}
-                </a>
-              </li>
-            {{ /for }}
-          </ul>
-        </div>
-      </div>
-    </nav>
-
+   
     <div class="container">
       <main class="{{ it.bodyClass }}">
         {{ content }}
