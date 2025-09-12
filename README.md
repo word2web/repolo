@@ -3,4 +3,3 @@
 This is a boilerplate to create Lume themes
 
 ## Instructions
-

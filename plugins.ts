@@ -1,6 +1,5 @@
 import date, { Options as DateOptions } from "lume/plugins/date.ts";
 import postcss from "lume/plugins/postcss.ts";
-import terser from "lume/plugins/terser.ts";
 import prism, { Options as PrismOptions } from "lume/plugins/prism.ts";
 import basePath from "lume/plugins/base_path.ts";
 import slugifyUrls from "lume/plugins/slugify_urls.ts";
@@ -55,7 +54,6 @@ export default function (userOptions?: Options) {
       .use(footnotes())
       .use(resolveUrls())
       .use(slugifyUrls())
-      .use(terser())
       .use(pagefind(options.pagefind))
       .use(sitemap())
       .use(feed(options.feed))
@@ -76,10 +74,5 @@ export default function (userOptions?: Options) {
     // Alert plugin
     site.hooks.addMarkdownItPlugin(alert);
 
-    // Mastodon comment system
-    site.remoteFile(
-      "/js/comments.js",
-      "https://cdn.jsdelivr.net/npm/@oom/mastodon-comments@0.3.2/src/comments.js",
-    );
   };
 }
